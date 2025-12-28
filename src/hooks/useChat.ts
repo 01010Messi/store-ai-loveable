@@ -42,7 +42,8 @@ export function useChat() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to get response");
       }
 
       const data = await response.json();
@@ -51,6 +52,7 @@ export function useChat() {
         id: generateId(),
         role: "assistant",
         content: data.reply,
+        options: data.options,
         timestamp: new Date(),
       };
 
@@ -64,7 +66,7 @@ export function useChat() {
       console.error("Chat error:", error);
       toast({
         title: "Error",
-        description: "Failed to connect to the AI. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to connect to the AI. Please try again.",
         variant: "destructive",
       });
     } finally {

@@ -33,7 +33,7 @@ export function ChatContainer({
   const getPlaceholder = () => {
     switch (conversationState.stage) {
       case "INITIAL_INTENT":
-        return "Describe your business in your own words...";
+        return "Describe your business idea (products, audience, vibe, pricing...)";
       case "CLARIFICATION":
         return "Answer the questions above...";
       default:
@@ -41,39 +41,49 @@ export function ChatContainer({
     }
   };
 
+  const handleOptionSelect = (option: string) => {
+    if (option.includes("type your own")) return;
+    onSendMessage(option);
+  };
+
   return (
-    <div className="flex flex-col h-full">
-      <ScrollArea className="flex-1 px-4 md:px-6" ref={scrollRef}>
-        <div className="max-w-2xl mx-auto py-6 space-y-4">
-          {messages.length === 0 && !isLoading && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg">
-                Start by describing your business idea.
-              </p>
-              <p className="text-muted-foreground/70 text-sm mt-2">
-                For example: "I sell handmade candles online"
-              </p>
-            </div>
-          )}
+    <div className="flex flex-col h-full max-w-3xl mx-auto w-full">
+      <div className="flex-1 overflow-hidden relative">
+        <ScrollArea className="h-full px-4" ref={scrollRef}>
+          <div className="py-6 space-y-6 pb-24">
+            {messages.length > 0 && (
+              <div className="flex justify-center pb-4">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest bg-muted/50 px-3 py-1 rounded-full">
+                  Store Setup Conversation
+                </span>
+              </div>
+            )}
 
-          {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
-          ))}
+            {messages.map((message) => (
+              <ChatMessage
+                key={message.id}
+                message={message}
+                onOptionSelect={handleOptionSelect}
+              />
+            ))}
 
-          {isLoading && <LoadingIndicator />}
+            {isLoading && <LoadingIndicator />}
 
-          {blueprint && <BlueprintDisplay blueprint={blueprint} />}
-        </div>
-      </ScrollArea>
+            {blueprint && (
+              <div className="mt-8">
+                <BlueprintDisplay blueprint={blueprint} />
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+      </div>
 
-      <div className="p-4 md:p-6 border-t border-border bg-background/80 backdrop-blur-sm">
-        <div className="max-w-2xl mx-auto">
-          <ChatInput
-            onSend={onSendMessage}
-            disabled={isComplete || isLoading}
-            placeholder={getPlaceholder()}
-          />
-        </div>
+      <div className="p-4 bg-background/80 backdrop-blur-sm z-20">
+        <ChatInput
+          onSend={onSendMessage}
+          disabled={isComplete || isLoading}
+          placeholder={getPlaceholder()}
+        />
       </div>
     </div>
   );

@@ -32,4 +32,5 @@ export const INITIAL_STATE = {
     initial_intent: '',
     clarification_questions: [],
     clarification_answers: '',
+    clarification_step: 0,
 };

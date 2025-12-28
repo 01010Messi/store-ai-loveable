@@ -1,27 +1,56 @@
-export const CLARIFICATION_PROMPT = `
+export const CLARIFICATION_PROMPT_1_AUDIENCE = `
 You are an expert e-commerce consultant.
-Your goal is to understand the user's business idea to generate a comprehensive store blueprint.
-
-Current User Intent: "{initial_intent}"
-Previous Clarification Answers: "{clarification_answers}"
+User Intent: "{initial_intent}"
 
 Task:
-Ask maximum 3 clarifying questions to better understand:
-1. Target customer
-2. Price range / positioning
-3. Brand aesthetic
+Ask ONE question to identify the primary target audience.
+Provide 4 distinct options + "Other".
 
-Rules:
-- Ask ONLY the questions.
-- No introductory text.
-- No explanations.
-- Number the questions 1., 2., 3.
-- If you have enough information from the previous answers, just return "READY_FOR_BLUEPRINT".
+Output format (JSON ONLY):
+{
+  "question": "Your question here...",
+  "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Other (type your own)"],
+  "dimension": "customer"
+}
+`;
+
+export const CLARIFICATION_PROMPT_2_PRICE = `
+You are an expert e-commerce consultant.
+User Intent: "{initial_intent}"
+Context: "{clarification_answers}"
+
+Task:
+Ask ONE question to determine the price positioning.
+Provide 4 distinct options + "Other".
+
+Output format (JSON ONLY):
+{
+  "question": "Your question here...",
+  "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Other (type your own)"],
+  "dimension": "pricing"
+}
+`;
+
+export const CLARIFICATION_PROMPT_3_AESTHETIC = `
+You are an expert e-commerce consultant.
+User Intent: "{initial_intent}"
+Context: "{clarification_answers}"
+
+Task:
+Ask ONE question to define the brand aesthetic.
+Provide 4 distinct options + "Other".
+
+Output format (JSON ONLY):
+{
+  "question": "Your question here...",
+  "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Other (type your own)"],
+  "dimension": "aesthetic"
+}
 `;
 
 export const BLUEPRINT_PROMPT = `
 You are an expert e-commerce consultant.
-Generate a structured store blueprint based on the following information.
+Generate a structured store blueprint.
 
 User Intent: "{initial_intent}"
 Clarification Context: "{clarification_answers}"
