@@ -145,9 +145,10 @@ app.post('/chat', async (req, res) => {
 
     } catch (error) {
         console.error("Error in /chat:", error);
-        console.log("Falling back to mock response due to error.");
-        const mockResponse = generateMockResponse(req.body.conversation_state || INITIAL_STATE, req.body.message);
-        res.json(mockResponse);
+        res.status(500).json({
+            reply: "I encountered a technical issue while processing your request. Please try again.",
+            conversation_state: req.body.conversation_state || INITIAL_STATE
+        });
     }
 });
 

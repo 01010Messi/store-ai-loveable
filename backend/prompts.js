@@ -3,8 +3,8 @@ You are an expert e-commerce consultant.
 User Intent: "{initial_intent}"
 
 Task:
-Ask ONE question to identify the primary target audience.
-Provide 4 distinct options + "Other".
+Ask ONE concise question to identify the specific target audience.
+Avoid generic marketing fluff. Be direct.
 
 Output format (JSON ONLY):
 {
@@ -21,12 +21,13 @@ Context: "{clarification_answers}"
 
 Task:
 Ask ONE question to determine the price positioning.
-Provide 4 distinct options with INR (₹) ranges where applicable + "Other".
+STRICTLY use Indian Rupees (₹) for all price ranges in options.
+Do NOT use USD ($).
 
 Output format (JSON ONLY):
 {
   "question": "Your question here...",
-  "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Other (type your own)"],
+  "options": ["Budget (e.g. ₹500 - ₹1,500)", "Mid-Range (e.g. ₹1,500 - ₹4,000)", "Premium (e.g. ₹4,000 - ₹10,000)", "Luxury (₹10,000+)", "Other (type your own)"],
   "dimension": "pricing"
 }
 `;
@@ -38,7 +39,7 @@ Context: "{clarification_answers}"
 
 Task:
 Ask ONE question to define the brand aesthetic.
-Provide 4 distinct options + "Other".
+tailor the options to the specific product niche (e.g. for sneakers: Streetwear, Techwear, Classic, etc).
 
 Output format (JSON ONLY):
 {
@@ -49,48 +50,40 @@ Output format (JSON ONLY):
 `;
 
 export const BLUEPRINT_PROMPT = `
-You are an expert e-commerce consultant.
-Generate a structured store blueprint.
-
+You are an expert e-commerce consultant building a store blueprint.
 User Intent: "{initial_intent}"
 Clarification Context: "{clarification_answers}"
 
 Task:
-Generate a JSON object representing the store blueprint.
-The output MUST be valid JSON. Do not include markdown formatting like \`\`\`json.
+Generate a structured store blueprint.
+1. STRICTLY USE INDIAN RUPEES (₹) for all prices.
+2. DO NOT use generic names like "Product A" or "Featured". Use realistic, domain-specific names (e.g. "Urban Glide Runners", "Heritage Leather Loafers").
+3. Make the "Tagline" and "Description" professional and brand-specific.
+4. If the user input is weak or nonsensical, generate a plausible store based on the Intent.
 
-Structure:
+Output format (JSON ONLY, NO MARKDOWN):
 {
   "brandOverview": {
     "name": "Store Name",
     "tagline": "Catchy Tagline",
-    "description": "Brief description",
-    "targetAudience": "Target audience description",
-    "positioning": "Luxury/Budget/Eco-friendly etc."
+    "description": "Professional description",
+    "targetAudience": "Specific audience",
+    "positioning": "Price/Value positioning"
   },
   "productCategories": [
-    { "name": "Category 1", "description": "Description" },
-    { "name": "Category 2", "description": "Description" },
-    { "name": "Category 3", "description": "Description" }
+    { "name": "Category 1", "description": "Short desc" },
+    { "name": "Category 2", "description": "Short desc" },
+    { "name": "Category 3", "description": "Short desc" }
   ],
   "sampleProducts": [
-    { "name": "Product 1", "category": "Category 1", "priceRange": "₹500-₹1500", "description": "Description" },
-    { "name": "Product 2", "category": "Category 2", "priceRange": "₹2500-₹5000", "description": "Description" }
+    { "name": "Realistic Product Name", "category": "Category 1", "priceRange": "₹2000-₹4000", "description": " enticing description" },
+    { "name": "Realistic Product Name", "category": "Category 2", "priceRange": "₹4500-₹6000", "description": " enticing description" }
   ],
   "homepageStructure": {
-    "hero": "Hero section description",
+    "hero": "Hero section copy",
     "sections": ["Section 1", "Section 2", "Section 3"]
   },
-  "essentialPages": ["About Us", "Contact", "FAQ"],
-  "policies": ["Shipping Policy", "Return Policy"]
+  "essentialPages": ["About Us", "Contact", "FAQ", "Sizing Guide"],
+  "policies": ["Shipping (All India)", "Returns & Exchange", "Privacy Policy"]
 }
-
-Rules:
-- Human-readable content.
-- No emojis.
-- No mention of Shopify or competitors.
-- Pure JSON output.
-- STRICTLY USE INDIAN RUPEES (₹) for all prices.
-- Example: "₹599", "₹1200-₹2000".
-- DO NOT use "$" or "USD".
 `;
