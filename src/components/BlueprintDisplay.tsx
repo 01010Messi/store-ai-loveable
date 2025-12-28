@@ -8,9 +8,11 @@ interface BlueprintDisplayProps {
 export function BlueprintDisplay({ blueprint }: BlueprintDisplayProps) {
   return (
     <div className="animate-fade-in w-full max-w-2xl mx-auto">
-      <div className="mb-4 flex items-center gap-3">
-        <div className="h-2 w-2 rounded-full bg-primary" />
-        <span className="text-sm font-medium text-primary">Store Blueprint Generated</span>
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">Your Store Blueprint</h2>
+        <p className="text-muted-foreground mt-1 text-sm">
+          This structure is auto-generated based on your answers and can be customized further.
+        </p>
       </div>
 
       <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">

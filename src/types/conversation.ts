@@ -5,6 +5,7 @@ export interface ConversationState {
   initial_intent: string;
   clarification_questions: string[];
   clarification_answers: string;
+  clarification_step?: number;
 }
 
 export interface ChatMessage {
