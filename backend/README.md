@@ -1,43 +1,50 @@
-# AI Store Setup Engine Backend
+# AI Store Backend
 
-This is the backend for the AI Store Setup Engine. It handles the chat logic, state management, and interaction with the Gemini API.
+The robust Node.js backend powering the **AI Store Setup Engine**. It orchestrates the AI conversation, adheres to strict business rules, and interfaces with the Google Gemini API.
 
-## Setup
+## Core Responsibilities
 
-1.  Install dependencies:
-    ```bash
-    npm install
-    ```
+1.  **Conversation State Machine**:
+    -   Manages transitions: `INITIAL_INTENT` → `CLARIFICATION` (Steps 1-3) → `BLUEPRINT`.
+    -   Strictly enforces the **3-Question Limit** to prevent infinite loops.
+2.  **AI Integration (Gemini)**:
+    -   **Smart Model Splitting**:
+        -   `gemini-2.5-flash-lite`: Used for clarification questions (Speed/Cost efficiency).
+        -   `gemini-2.5-flash`: Used for Blueprint generation (High fidelity).
+3.  **Safety & Quality Limits**:
+    -   **Rate Limiting**: Blocks excessive calls.
+    -   **Response Caching**: In-memory caching for identical states (e.g. page refreshes).
+    -   **No Mock Data**: Strict crash-on-failure policy to ensure no hallucinated "Mock Stores" are shown to users.
+    -   **India-First Context**: All prompts enforced to use **INR (₹)** and relevant market examples.
 
-2.  Set environment variables:
-    Create a `.env` file with:
-    ```
-    GEMINI_API_KEY=your_api_key
-    PORT=3000
-    ```
+## API Documentation
 
-3.  Start the server:
-    ```bash
-    npm start
-    ```
+### `POST /chat`
 
-## API
-
-### POST /chat
-
-Accepts:
+**Request:**
 ```json
 {
-  "message": "User message",
-  "conversation_state": { ... }
+  "message": "User input text",
+  "conversation_state": { ... } // Detailed state object
 }
 ```
 
-Returns:
+**Response:**
 ```json
 {
-  "reply": "AI response",
-  "conversation_state": { ... },
-  "blueprint": { ... } // Only in BLUEPRINT stage
+  "reply": "AI text response",
+  "options": ["Option 1", "Option 2"], // For UI buttons
+  "conversation_state": { ... }, // Updated state
+  "blueprint": null // or JSON object if complete
 }
 ```
+
+## Setup & Run
+
+```bash
+npm install
+npm start
+``` 
+
+Runs on `http://localhost:3000`.
+Verified with Google Gemini API.

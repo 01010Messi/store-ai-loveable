@@ -26,13 +26,16 @@ cd ..
 sleep 2
 
 # Start Frontend
+# Start Frontend
 echo "Step 2: Starting Frontend..."
+cd frontend
 if [ ! -d "node_modules" ]; then
     echo "Installing frontend dependencies..."
     npm install
 fi
 npm run dev &
 FRONTEND_PID=$!
+cd ..
 
 echo "Both servers are running!"
 echo "Backend: http://localhost:3000"

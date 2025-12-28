@@ -1,73 +1,54 @@
-# Welcome to your Lovable project
+# AI Store Setup Engine
 
-## Project info
+**"Shopify is too hard. AI makes it instant."**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+This repository contains the full source code for an **AI-first E-commerce Onboarding Engine**. Unlike traditional store builders that require manual configuration of themes, products, and settings, this engine builds a complete store structure conversationally in seconds.
 
-## How can I edit this code?
+## 🚀 Problem Statement
 
-There are several ways of editing your application.
+Setting up an online store is overwhelming. Merchants face "Blank Canvas Paralysis" when asked to configure themes, upload products, and write policies from scratch.
+**Solution**: An AI agent that interviews the merchant and *generates* the store for them.
 
-**Use Lovable**
+## 🏗️ Architecture
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+The project is structured into two distinct modules:
 
-Changes made via Lovable will be committed automatically to this repo.
+| Module | Path | Description |
+| :--- | :--- | :--- |
+| **Frontend** | `/frontend` | React + Vite UI. Handles the chat interface, state visualization, and blueprint rendering. |
+| **Backend** | `/backend` | Node.js + Express. Manages the conversation state, enforces business logic, and orchestrates Gemini AI calls. |
 
-**Use your preferred IDE**
+### End-to-End Flow
+1.  **Onboarding**: User describes their idea (e.g., "I want to sell custom sneakers").
+2.  **Clarification**: The AI asks exactly **3 smart questions** to narrow down Audience, Pricing, and Aesthetic.
+3.  **Generation**: The Backend generates a structured **JSON Blueprint** containing products, pages, and layout config.
+4.  **Result**: The Frontend renders this blueprint as a preview (and in future, provisions the DB).
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## ✨ Key Product Decisions
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+-   **Deterministic Flow**: We enforce a strict 3-step clarification process to ensure predictability.
+-   **Opinionated Inputs**: We use "Options + Other" to speed up data entry while retaining flexibility.
+-   **India-First**: The engine is optimized for Indian context (₹ currency, local market nuances).
+-   **Gemini Powered**: Uses `gemini-2.5-flash-lite` for speed and `gemini-2.5-flash` for quality.
 
-Follow these steps:
+## 🛠️ How to Run
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+A unified script is provided to start both services:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+# From the root directory
+bash run_app.sh
 ```
 
-**Edit a file directly in GitHub**
+This will:
+1.  Install dependencies for both frontend and backend.
+2.  Start the Backend on `http://localhost:3000`.
+3.  Start the Frontend on `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🔮 What's Next?
+-   [ ] One-click deployment to hosting.
+-   [ ] Integration with Payment Gateways (Razorpay).
+-   [ ] Admin Dashboard generation based on Blueprint.
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+*Built with ❤️ by Antigravity.*
